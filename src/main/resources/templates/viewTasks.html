@@ -5,22 +5,34 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
 	integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
 	crossorigin="anonymous">
-<title>Pagina de inicio</title>
+<title>Ver Tareas</title>
 </head>
 <body>
 	<div th:replace="layout :: header" class="text-center"></div>
-	<div class="container">
-		<div class="jumbotron">
-			<h1 class="display-4 text-center">Bienvenido a tu TaskManager</h1>
-			<hr class="my-4">
-			<div class="container text-center">
-				<span class="container"> <a class=" btn btn-primary btn-lg"
-					href="#" role="button" th:ref="@/CreateTask">Crear Tarea</a> <a
-					class=" btn btn-primary btn-lg" href="Tasks" role="button"
-					th:ref="@/ViewTasks">Ver Tareas</a>
-				</span>
-			</div>
-		</div>
+	<div class="container text-center">
+		<table class="table table-striped">
+			<tr>
+				<th>Nombre Tarea</th>
+				<th>Descripcion Tarea</th>
+				<th>Fecha limite</th>
+				<th>Realizada</th>
+				<th>Completada</th>
+				<th>Borrar</th>
+			</tr>
+			<th:block th:each="task : ${tasks}">
+				<tr>
+
+					<td th:text="${task.name}"></td>
+					<td th:text="${task.description}"></td>
+					<td th:text="${task.limitDate}"></td>
+					<td th:text="${task.done}"></td>
+					<td><a class=" btn btn-success btn-sm"
+					href="#" role="button">Completar Tarea</a></td>
+					<td><a class=" btn btn-danger btn-sm"
+					href="#" role="button">Eliminar Tarea</a></td>
+				</tr>
+			</th:block>
+		</table>
 	</div>
 	<div th:replace="layout :: footer" class="text-center"></div>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

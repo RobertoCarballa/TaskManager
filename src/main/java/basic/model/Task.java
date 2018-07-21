@@ -41,6 +41,10 @@ public class Task implements java.io.Serializable {
 		this.done = done;
 	}
 
+	public Task() {
+
+	}
+
 	public Long getId() {
 		return id;
 	}

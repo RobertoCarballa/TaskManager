@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //Search for Entities in that package
 @EntityScan("basic.model")
 //Search for the properties file
-@PropertySource("persistence.properties")
+@PropertySource("classpath:persistence.properties")
 //Main class needed to run Spring-boot on the App
 @SpringBootApplication
 public class TaskManager {

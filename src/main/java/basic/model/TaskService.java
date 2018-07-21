@@ -3,6 +3,8 @@ package basic.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -22,6 +24,17 @@ public class TaskService {
 		taskRepository.save(task);
 
 		return task.getId();
+	}
+
+	@PostConstruct
+	protected void initialize() {
+		Task task1 = new Task("tarea 1", "tarea de prueba", LocalDate.now(), false);
+		Task task2 = new Task("tarea 2", "tarea de prueba", LocalDate.now().minusDays(2), true);
+		Task task3 = new Task("tarea 3", "tarea de prueba", LocalDate.now().plusDays(2), false);
+
+		taskRepository.save(task1);
+		taskRepository.save(task2);
+		taskRepository.save(task3);
 	}
 
 	public List<Task> FindTasksInTime(LocalDate limitDate) {

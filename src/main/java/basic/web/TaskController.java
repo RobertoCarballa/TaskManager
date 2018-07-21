@@ -5,38 +5,40 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import basic.model.Task;
 import basic.model.TaskNotFoundException;
 import basic.model.TaskRepository;
 
-@RestController
-@RequestMapping("/main/Tasks")
+@Controller
 public class TaskController {
 
 	@Autowired
 	private TaskRepository taskRepository;
 
-	@GetMapping
-	public Iterable findAll() {
-		return taskRepository.findAll();
+	@GetMapping("Tasks")
+	public ModelAndView ViewTasks() {
+		ModelAndView model = new ModelAndView("viewTasks");
+		model.addObject("tasks", taskRepository.findAll());
+
+		return model;
 	}
 
-	@GetMapping("/main/Tasks/{limitDate}")
+	@GetMapping("Tasks/{limitDate}")
 	public List<Task> findByTitle(@PathVariable LocalDate limitDate) {
 		return taskRepository.findActiveTasks(limitDate);
 	}
 
-	@GetMapping("/main/Tasks/{done}")
+	@GetMapping("Tasks/{done}")
 	public List<Task> findOne(@PathVariable Boolean done) {
 		return taskRepository.findByDone(done);
 	}
