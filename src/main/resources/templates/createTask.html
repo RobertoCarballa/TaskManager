@@ -11,7 +11,8 @@
 	<div th:replace="layout :: header" class="text-center"></div>
 	<div class="container">
 		<form action="#" method="post" class="form-narrow"
-			th:action="@{/createNewTask}" th:object="${taskForm}">
+			th:action="@{/createNewTask}" th:object="${taskForm}"
+			th:fragment="taskForm">
 			<p class="lead text-center">
 				<b>Nueva Tarea</b>
 			</p>
@@ -21,6 +22,7 @@
 					class="container"> <input type="text" class="form-control"
 					id="name" placeholder="nombre tarea" th:field="*{name}" />
 				</span>
+				<span class="help-block text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name can't be empty</span>
 			</div>
 			<div class="container">
 				<span class="container">Descripcion de la tarea</span> <span

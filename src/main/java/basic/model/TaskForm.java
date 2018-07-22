@@ -2,10 +2,15 @@ package basic.model;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class TaskForm {
 
+	private static final String NOT_BLANK_MESSAGE = "El nombre no puede ser vacio";
+
+	@NotBlank(message = TaskForm.NOT_BLANK_MESSAGE)
 	private String name;
 
 	private String description;
