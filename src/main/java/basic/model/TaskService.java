@@ -17,7 +17,7 @@ public class TaskService {
 	@Autowired
 	private TaskRepository taskRepository;
 
-	public Long CreateTask(String name, String description, LocalDate limitDate, Boolean done) {
+	public Long createTask(String name, String description, LocalDate limitDate, Boolean done) {
 
 		Task task = new Task(name, description, limitDate, done);
 
@@ -37,7 +37,7 @@ public class TaskService {
 		taskRepository.save(task3);
 	}
 
-	public List<Task> FindTasksInTime(LocalDate limitDate) {
+	public List<Task> findTasksInTime(LocalDate limitDate) {
 
 		List<Task> tasks = taskRepository.findActiveTasks(limitDate);
 
@@ -45,19 +45,19 @@ public class TaskService {
 	}
 
 	// Depending on Boolean value you can find the done or not done tasks
-	public List<Task> FindDoneOrNotTasks(Boolean done) {
+	public List<Task> findDoneOrNotTasks(Boolean done) {
 
 		List<Task> tasks = taskRepository.findByDone(done);
 
 		return tasks;
 	}
 
-	public void DeleteTask(Long id) {
+	public void feleteTask(Long id) {
 
 		taskRepository.deleteById(id);
 	}
 
-	public void UpdateTask(Long id, String name, String description, LocalDate limitDate, Boolean done) {
+	public void updateTask(Long id, String name, String description, LocalDate limitDate, Boolean done) {
 
 		Task taskToUpdate = taskRepository.findOneById(id);
 

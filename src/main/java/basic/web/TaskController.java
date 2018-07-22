@@ -1,22 +1,16 @@
 package basic.web;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import basic.model.Task;
-import basic.model.TaskNotFoundException;
+import basic.model.TaskForm;
 import basic.model.TaskRepository;
 
 @Controller
@@ -26,41 +20,40 @@ public class TaskController {
 	private TaskRepository taskRepository;
 
 	@GetMapping("Tasks")
-	public ModelAndView ViewTasks() {
+	public ModelAndView viewTasks() {
 		ModelAndView model = new ModelAndView("viewTasks");
 		model.addObject("tasks", taskRepository.findAll());
 
 		return model;
 	}
 
-	@GetMapping("Tasks/{limitDate}")
-	public List<Task> findByTitle(@PathVariable LocalDate limitDate) {
-		return taskRepository.findActiveTasks(limitDate);
+	@GetMapping("CreateTask")
+	public ModelAndView createTask() {
+		ModelAndView model = new ModelAndView("createTask");
+
+		model.addObject("taskForm", new TaskForm());
+		return model;
 	}
 
-	@GetMapping("Tasks/{done}")
-	public List<Task> findOne(@PathVariable Boolean done) {
-		return taskRepository.findByDone(done);
+	@PostMapping("createNewTask")
+	public ModelAndView createNewTask(Model model, @ModelAttribute TaskForm taskForm) {
+
+		Task task = new Task();
+		task.setName(taskForm.getName());
+		task.setDescription(taskForm.getDescription());
+		task.setLimitDate(taskForm.getLimitDate());
+		task.setDone(taskForm.getDone());
+		taskRepository.save(task);
+
+		ModelAndView modelAndView = new ModelAndView("viewTasks");
+		return modelAndView;
 	}
 
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public Long create(@RequestBody Task task) {
-		return taskRepository.save(task).getId();
-	}
-
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
+	@PostMapping("deleteTask")
+	public String deleteTask(@RequestParam("r") Long id) {
 		taskRepository.deleteById(id);
+
+		return "redirect:/Tasks";
 	}
 
-	@PutMapping("/{id}")
-	public Long updateBook(@RequestBody Task task, @PathVariable Long id) {
-		if (task.getId() != id) {
-			// throw new TaskIdMismatchException();
-		}
-		taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
-		return taskRepository.save(task).getId();
-	}
 }

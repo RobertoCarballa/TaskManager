@@ -28,8 +28,11 @@
 					<td th:text="${task.done}"></td>
 					<td><a class=" btn btn-success btn-sm"
 					href="#" role="button">Completar Tarea</a></td>
-					<td><a class=" btn btn-danger btn-sm"
-					href="#" role="button">Eliminar Tarea</a></td>
+					<td>
+					<form method="post" th:action="@{'/deleteTask'(r=${task.id})}">
+						<button type="submit" class="btn btn-danger btn-sm">Borrar Tarea</button>
+					</form>
+					</td>
 				</tr>
 			</th:block>
 		</table>
