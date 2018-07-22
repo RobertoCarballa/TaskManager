@@ -2,12 +2,15 @@ package basic.model;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class TaskForm {
 
 	private String name;
 
 	private String description;
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate limitDate;
 
 	private Boolean done;

@@ -36,7 +36,7 @@ public class TaskController {
 	}
 
 	@PostMapping("createNewTask")
-	public ModelAndView createNewTask(Model model, @ModelAttribute TaskForm taskForm) {
+	public String createNewTask(Model model, @ModelAttribute TaskForm taskForm) {
 
 		Task task = new Task();
 		task.setName(taskForm.getName());
@@ -45,8 +45,7 @@ public class TaskController {
 		task.setDone(taskForm.getDone());
 		taskRepository.save(task);
 
-		ModelAndView modelAndView = new ModelAndView("viewTasks");
-		return modelAndView;
+		return "redirect:/Tasks";
 	}
 
 	@PostMapping("deleteTask")
