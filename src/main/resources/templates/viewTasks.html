@@ -26,8 +26,11 @@
 					<td th:text="${task.description}"></td>
 					<td th:text="${task.limitDate}"></td>
 					<td th:text="${task.done}"></td>
-					<td><a class=" btn btn-success btn-sm"
-					href="#" role="button">Completar Tarea</a></td>
+					<td>
+					<form method="post" th:action="@{'/completeTask'(r=${task.id})}">
+						<button type="submit" class="btn btn-success btn-sm">Completar Tarea</button>
+					</form>
+					</td>
 					<td>
 					<form method="post" th:action="@{'/deleteTask'(r=${task.id})}">
 						<button type="submit" class="btn btn-danger btn-sm">Borrar Tarea</button>

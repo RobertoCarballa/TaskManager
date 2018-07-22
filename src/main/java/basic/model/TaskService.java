@@ -17,15 +17,7 @@ public class TaskService {
 	@Autowired
 	private TaskRepository taskRepository;
 
-	public Long createTask(String name, String description, LocalDate limitDate, Boolean done) {
-
-		Task task = new Task(name, description, limitDate, done);
-
-		taskRepository.save(task);
-
-		return task.getId();
-	}
-
+	// Some Test Tasks will be inserted in the Database to interact with the app
 	@PostConstruct
 	protected void initialize() {
 		Task task1 = new Task("tarea 1", "tarea de prueba", LocalDate.now(), false);
@@ -37,34 +29,29 @@ public class TaskService {
 		taskRepository.save(task3);
 	}
 
-	public List<Task> findTasksInTime(LocalDate limitDate) {
-
-		List<Task> tasks = taskRepository.findActiveTasks(limitDate);
-
-		return tasks;
+	public List<Task> findAll() {
+		return taskRepository.findAll();
 	}
 
-	// Depending on Boolean value you can find the done or not done tasks
-	public List<Task> findDoneOrNotTasks(Boolean done) {
+	public Long createTask(String name, String description, LocalDate limitDate, Boolean done) {
 
-		List<Task> tasks = taskRepository.findByDone(done);
+		Task task = new Task(name, description, limitDate, done);
 
-		return tasks;
+		taskRepository.save(task);
+
+		return task.getId();
 	}
 
-	public void feleteTask(Long id) {
+	public void deleteTask(Long id) {
 
 		taskRepository.deleteById(id);
 	}
 
-	public void updateTask(Long id, String name, String description, LocalDate limitDate, Boolean done) {
+	public void completeTask(Long id) {
 
 		Task taskToUpdate = taskRepository.findOneById(id);
 
-		taskToUpdate.setName(name);
-		taskToUpdate.setDescription(description);
-		taskToUpdate.setLimitDate(limitDate);
-		taskToUpdate.setDone(done);
+		taskToUpdate.setDone(true);
 
 		taskRepository.save(taskToUpdate);
 	}

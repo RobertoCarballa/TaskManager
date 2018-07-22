@@ -10,6 +10,7 @@ public class TaskForm {
 
 	private String description;
 
+	// The format sets how the limitDate will be stored
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate limitDate;
 

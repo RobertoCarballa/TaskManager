@@ -27,6 +27,8 @@ public class Task implements java.io.Serializable {
 	@Column
 	private String description;
 
+	// the limitdate is just an informative date, it means when the task should have
+	// been done
 	@Column
 	private LocalDate limitDate;
 
